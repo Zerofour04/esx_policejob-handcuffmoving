@@ -1,8 +1,10 @@
-# esx_policejob
+# 🚓esx_policejob
 
-This resource for ESX adds police armories, vehicle garages and ability for cops to search, handcuff people and much more.
+This is a police job for FiveM. You need ESX. I edited this so that you can move when you are arrested.
+👑 Creator: [ESX Framework](https://github.com/esx-framework)
+🛠️ Forked by: [Zerofour](https://github.com/Zerofour04)
 
-### Requirements
+### 🧱Requirements
 * Auto mode
   * [esx_billing](https://github.com/ESX-Org/esx_billing)
   * [esx_vehicleshop](https://github.com/ESX-Org/esx_vehicleshop)
@@ -24,7 +26,7 @@ This resource for ESX adds police armories, vehicle garages and ability for cops
 * ESX Status Support
   * [esx_status](https://github.com/ESX-Org/esx_status)
 
-## Download & Installation
+## 📋Download & Installation
 
 ### Using [fvm](https://github.com/qlaffont/fvm-installer)
 ```
@@ -38,11 +40,11 @@ git clone https://github.com/ESX-Org/esx_policejob [esx]/esx_policejob
 ```
 
 ### Manually
-- Download https://github.com/ESX-Org/esx_policejob/archive/master.zip
-- Put it in the `[esx]` directory
+- 1. Download https://github.com/ESX-Org/esx_policejob/archive/master.zip
+- 2. Put it in the `[esx]` directory
 
 
-## Installation
+## ⚠️Important Installation
 - Import `esx_policejob.sql` in your database
 - Add this to your server.cfg:
 
@@ -50,12 +52,13 @@ git clone https://github.com/ESX-Org/esx_policejob [esx]/esx_policejob
 start esx_policejob
 ```
 
+## 📝Notes
 -  * If you want player management you have to set `Config.EnablePlayerManagement` to `true` in `config.lua`
    * If you want armory management you have to set `Config.EnableArmoryManagement` to `true` in `config.lua`
    * If you want license management you have to set `Config.EnableLicenses` to `true` in `config.lua`
    * If you want service management you have to set `Config.MaxInService` to a higher value than `-1` in `config.lua`
 
-# Legal
+# ©️Legal
 ### License
 esx_policejob - police script for ESX
 
