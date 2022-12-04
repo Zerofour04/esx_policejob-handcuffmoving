@@ -72,6 +72,58 @@ AddEventHandler('esx_policejob:confiscatePlayerItem', function(target, itemType,
 	end
 end)
 
+--
+--Eigenes Menue
+--
+
+RegisterServerEvent('police:PriseEtFinservice')
+AddEventHandler('police:PriseEtFinservice', function(PriseOuFin)
+	local _source = source
+	local _raison = PriseOuFin
+	local xPlayer = ESX.GetPlayerFromId(_source)
+	local xPlayers = ESX.GetPlayers()
+	local name = xPlayer.getName(_source)
+
+	for i = 1, #xPlayers, 1 do
+		local thePlayer = ESX.GetPlayerFromId(xPlayers[i])
+		if thePlayer.job.name == 'police' then
+			TriggerClientEvent('police:InfoService', xPlayers[i], _raison, name)
+		end
+	end
+end)
+
+RegisterServerEvent('PriseAppelServeur')
+AddEventHandler('PriseAppelServeur', function(gx, gy, gz)
+	local _source = source
+	local xPlayer = ESX.GetPlayerFromId(_source)
+	local name = xPlayer.getName(source)
+	local xPlayers = ESX.GetPlayers()
+
+	for i = 1, #xPlayers, 1 do
+		local thePlayer = ESX.GetPlayerFromId(xPlayers[i])
+		if thePlayer.job.name == 'police' then
+			TriggerClientEvent('PriseAppel', xPlayers[i], name)
+		end
+	end
+end)
+
+RegisterServerEvent('renfort')
+AddEventHandler('renfort', function(coords, raison)
+	local _source = source
+	local _raison = raison
+	local xPlayer = ESX.GetPlayerFromId(_source)
+	local xPlayers = ESX.GetPlayers()
+
+	for i = 1, #xPlayers, 1 do
+		local thePlayer = ESX.GetPlayerFromId(xPlayers[i])
+		if thePlayer.job.name == 'police' then
+			TriggerClientEvent('renfort:setBlip', xPlayers[i], coords, _raison)
+			TriggerClientEvent("InteractSound_CL:PlayOnOne", _source, 'Backup', 0.5)
+		end
+	end
+end)
+
+--ENDE
 RegisterNetEvent('esx_policejob:handcuff')
 AddEventHandler('esx_policejob:handcuff', function(target)
 	local xPlayer = ESX.GetPlayerFromId(source)
@@ -494,3 +546,4 @@ AddEventHandler('onResourceStop', function(resource)
 		TriggerEvent('esx_phone:removeNumber', 'police')
 	end
 end)
+

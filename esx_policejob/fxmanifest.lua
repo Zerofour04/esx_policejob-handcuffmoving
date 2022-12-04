@@ -1,25 +1,24 @@
-fx_version 'adamant'
-
+fx_version 'cerulean'
 game 'gta5'
 
+author 'Zerofour'
 description 'ESX Police Job'
-
-version '1.3.0'
+version '2.0.0'
 
 server_scripts {
 	'@mysql-async/lib/MySQL.lua',
 	'@es_extended/locale.lua',
 	'locales/br.lua',
+	'locales/cs.lua',
 	'locales/de.lua',
 	'locales/en.lua',
-	'locales/pl.lua',
+	'locales/es.lua',
 	'locales/fr.lua',
 	'locales/fi.lua',
-	'locales/es.lua',
-	'locales/sv.lua',
 	'locales/ko.lua',
-	'locales/cs.lua',
 	'locales/nl.lua',
+	'locales/pl.lua',
+	'locales/sv.lua',
 	'locales/tr.lua',
 	'config.lua',
 	'server/main.lua'
@@ -28,24 +27,25 @@ server_scripts {
 client_scripts {
 	'@es_extended/locale.lua',
 	'locales/br.lua',
+	'locales/cs.lua',
 	'locales/de.lua',
 	'locales/en.lua',
-	'locales/pl.lua',
+	'locales/es.lua',
 	'locales/fr.lua',
 	'locales/fi.lua',
-	'locales/es.lua',
-	'locales/sv.lua',
 	'locales/ko.lua',
-	'locales/cs.lua',
 	'locales/nl.lua',
+	'locales/pl.lua',
+	'locales/sv.lua',
 	'locales/tr.lua',
 	'config.lua',
 	'client/main.lua',
-	'client/vehicle.lua'
+	'client/cam.lua',
+	'client/vehicle.lua',
+	'client/sp_radar.lua'
 }
 
 dependencies {
 	'es_extended',
-	'esx_billing',
 	'esx_vehicleshop'
 }

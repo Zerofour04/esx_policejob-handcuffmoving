@@ -253,6 +253,7 @@ function OpenPoliceActionsMenu()
 		title    = 'Police',
 		align    = 'top-left',
 		elements = {
+			{label = _U('policemenue'), value = 'polizeimenu'},
 			{label = _U('citizen_interaction'), value = 'citizen_interaction'},
 			{label = _U('vehicle_interaction'), value = 'vehicle_interaction'},
 			{label = _U('object_spawner'), value = 'object_spawner'}
@@ -265,7 +266,8 @@ function OpenPoliceActionsMenu()
 				{label = _U('drag'), value = 'drag'},
 				{label = _U('put_in_vehicle'), value = 'put_in_vehicle'},
 				{label = _U('out_the_vehicle'), value = 'out_the_vehicle'},
-				{label = _U('fine'), value = 'fine'},
+				{label = _U('fine'), value = 'ammende'},
+				{label = _U('communityservice'),	value = 'communityservice'},
 				{label = _U('unpaid_bills'), value = 'unpaid_bills'}
 			}
 
@@ -287,15 +289,53 @@ function OpenPoliceActionsMenu()
 					elseif action == 'search' then
 						OpenBodySearchMenu(closestPlayer)
 					elseif action == 'handcuff' then
-						TriggerServerEvent('esx_policejob:handcuff', GetPlayerServerId(closestPlayer))
+						TriggerServerEvent('esx_cuffanimation:startArrest',
+						GetPlayerServerId(closestPlayer))
+						Citizen.Wait(3100)
+						TriggerServerEvent('esx_policejob:handcuff',
+						GetPlayerServerId(closestPlayer))
 					elseif action == 'drag' then
 						TriggerServerEvent('esx_policejob:drag', GetPlayerServerId(closestPlayer))
 					elseif action == 'put_in_vehicle' then
 						TriggerServerEvent('esx_policejob:putInVehicle', GetPlayerServerId(closestPlayer))
 					elseif action == 'out_the_vehicle' then
 						TriggerServerEvent('esx_policejob:OutVehicle', GetPlayerServerId(closestPlayer))
-					elseif action == 'fine' then
-						OpenFineMenu(closestPlayer)
+					elseif action == 'ammende' then
+						ESX.UI.Menu.Open(
+							'dialog', GetCurrentResourceName(), 'ammende',
+							{
+								title = _U('fine')
+							},
+							function(data, menu)
+			
+								local amount = tonumber(data.value)
+			
+								if amount == nil or amount <= 0 then
+									ESX.ShowNotification(_U('quantity_invalid'))
+								else
+									menu.close()
+			
+									local closestPlayer, closestDistance = ESX.Game.GetClosestPlayer()
+			
+									if closestPlayer == -1 or closestDistance > 3.0 then
+										ESX.ShowNotification(_U('no_players_nearby'))
+									else
+										local playerPed        = GetPlayerPed(-1)
+			
+										Citizen.CreateThread(function()
+											TaskStartScenarioInPlace(playerPed, 'CODE_HUMAN_MEDIC_TIME_OF_DEATH', 0, true)
+											Citizen.Wait(5000)
+											ClearPedTasks(playerPed)
+											TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_police', 'Police', amount)
+										end)
+									end
+								end
+							end,
+							function(data, menu)
+								menu.close()
+						end)
+					elseif action == 'communityservice' then
+						SendToCommunityService(GetPlayerServerId(closestPlayer))
 					elseif action == 'license' then
 						ShowPlayerLicense(closestPlayer)
 					elseif action == 'unpaid_bills' then
@@ -384,16 +424,339 @@ function OpenPoliceActionsMenu()
 			end, function(data2, menu2)
 				menu2.close()
 			end)
+		--
+		-- Added this menu | Added by Zerofour
+		--
+
+		elseif data.current.value == 'polizeimenu' then --Eigenes Menue
+
+			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'polizeimenu', {
+				title    = (_U('backup_menu')),
+				align    = 'top-left',
+				elements = {
+					{label = _U('bodycam_action'), value = 'bcam'},
+					{label = _U('police_mdt'), value = 'mdtoffnen'},
+					{label = _U('status'), value = 'status'},
+					{label = _U('request'), value = 'renfort'},
+					{label = _U('police_badge'), 	value = 'badge'},
+					{label = _U('k9_dog'), 	value = 'k9'},
+					{label = _U('cameras'), value = 'camenu'},
+					{label = _U('shield_actions'), value = 'boucliermenu'},
+					{label = _U('speed_camera'), value = 'rd_mobile'},
+					{label = _U('traffic_manager'), value = 'verkehr'}
+				}
+			}, function(data2, menu2)
+				local action = data2.current.value 	
+
+				if action == 'bcam' then
+					ExecuteCommand('bwv')
+                elseif action == 'mdtoffnen' then
+                    ExecuteCommand('mdt')
+				elseif action == 'status' then
+					local elements = {}
+					local elements = {
+						{label = '<span style="color:green;">Service<span style="color:white;"> plug', value = 'prise'},
+						{label = '<span style="color:red;">End<span style="color:white;"> of service', value = 'fin'},
+						{label = '<span style="color:orange;">service<span style="color:white;"> break', value = 'pause'},
+						{label = '<span style="color:orange;">Standby<span style="color:gray;">, awaiting dispatch', value = 'standby'},
+						{label = '<span style="color:orange;">Control<span style="color:gray;"> road in progress', value = 'control'},
+						{label = '<span style="color:orange;">Refusal<span style="color:gray;"> to comply / hit and run', value = 'refus'},
+						{label = '<span style="color:orange;">Crime<span style="color:gray;"> in progress / prosecution in progress', value = 'crime'}
+					}
+
+					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'stauts_service', {
+						css      = 'police',
+						title    = 'Status Service',
+						align    = 'top-left',
+						elements = elements
+					}, function(data2, menu2)
+						local action = data2.current.value
+						if action == 'prise' then
+							local info = 'prise'
+							TriggerServerEvent('police:PriseEtFinservice', info)
+						elseif action == 'fin' then
+							local info = 'fin'
+							TriggerServerEvent('police:PriseEtFinservice', info)
+						elseif action == 'pause' then
+							local info = 'pause'
+							TriggerServerEvent('police:PriseEtFinservice', info)
+						elseif action == 'standby' then
+							local info = 'standby'
+							TriggerServerEvent('police:PriseEtFinservice', info)
+						elseif action == 'control' then
+							local info = 'control'
+							TriggerServerEvent('police:PriseEtFinservice', info)
+						elseif action == 'refus' then
+							local info = 'refus'
+							TriggerServerEvent('police:PriseEtFinservice', info)
+						elseif action == 'crime' then
+							local info = 'crime'
+							TriggerServerEvent('police:PriseEtFinservice', info)
+						end
+					end, function(data2, menu2)
+						menu2.close()
+					end)
+				elseif action == 'renfort' then
+					local elements  = {}
+					local playerPed = PlayerPedId()
+		
+					table.insert(elements, {label = _U('requestBackup1'), value = 'petite_demande'})
+					table.insert(elements, {label = _U('requestBackup2'), value = 'demande_importante'})
+					table.insert(elements, {label = _U('requestBackup3'), value = 'omgad'})
+		
+		
+					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'renfort', {
+						css      = 'police',
+						title    = ('Menu renfort'),
+						align    = 'top-left',
+						elements = elements
+					}, function(data2, menu2)
+						local coords  = GetEntityCoords(playerPed)
+						vehicle = ESX.Game.GetVehicleInDirection()
+						action  = data2.current.value
+						local name = GetPlayerName(PlayerId())
+		
+						if action == 'petite_demande' then
+							local raison = 'petit'
+							TriggerServerEvent('renfort', coords, raison)
+							--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+						elseif action == 'demande_importante' then
+							local raison = 'importante'
+							TriggerServerEvent('renfort', coords, raison)
+							--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+						elseif action == 'omgad' then
+							local raison = 'omgad'
+							TriggerServerEvent('renfort', coords, raison)
+							--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+						end
+		
+					end, function(data2, menu2)
+						menu2.close()
+					end)
+                elseif action == 'badge' then
+                    ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'esx_PoliceBadge',{
+                        css = 'police',
+                        title    = 'Polizeimarke',
+                        align = 'top-right',
+                        elements = {
+                            {label = _U('check_policebadge'), value = 'checkBadge'},
+                            {label = _U('show_policebadge'), value = 'showBadge'},
+                        }
+                    }, function(data, menu)
+                        local val = data.current.value
+                    
+                            
+                        if val == 'checkBadge' then
+                            TriggerServerEvent('policebadge:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(PlayerId()))
+                            local lPed = GetPlayerPed(-1)         
+                        else
+                            local player, distance = ESX.Game.GetClosestPlayer()
+                                
+                            if distance ~= -1 and distance <= 3.0 then
+                                if val == 'showBadge' then
+                                TriggerServerEvent('policebadge:open', GetPlayerServerId(PlayerId()), GetPlayerServerId(player))
+                    
+                                end
+                            else
+                                ESX.ShowNotification('No players nearby')
+                            end
+                        end        
+                    end, function(data, menu)
+                        menu.close()
+                    end)
+				elseif data.current.value == 'k9' then
+					local elements = {	
+						{label = _U('k9_spawn'), value = 'k9spawn'},
+						{label = _U('k9_follow'), value = 'k9follow'},
+						{label = _U('k9_stay'), value = 'k9stay'},
+						{label = _U('k9_searchVehicle'), value = 'k9sehveh'},
+						{label = _U('k9_searchPerson'), value = 'k9sehcit'},
+						{label = _U('k9_jumpIntoVeh'), value = 'k9enterveh'},
+						{label = _U('k9_jumpOutVeh'), value = 'k9exitveh'},
+						{label = _U('k9_despawn'), value = 'k9delete'}	
+					}
+
+					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'k9_interaction', {
+						title    = 'K9 Actions',
+						align    = 'bottom-right',
+						elements = elements
+					}, function(data2, menu2)
+						local action = data2.current.value
+				
+						if action == 'k9spawn' then
+							ExecuteCommand('k9 spawn shepherd')
+						elseif action == 'k9follow' then
+							ExecuteCommand('k9 follow')
+						elseif action == 'k9stay' then
+						  	ExecuteCommand('k9 stay')
+						elseif action == 'k9sehveh' then
+						  	ExecuteCommand('k9 search vehicle')
+						elseif action == 'k9sehcit' then
+							ExecuteCommand('k9 search player')
+						elseif action == 'k9enterveh' then
+							ExecuteCommand('k9 enter')
+						elseif action == 'k9exitveh' then
+							ExecuteCommand('k9 exit')
+						elseif action == 'k9delete' then
+							ExecuteCommand('k9 delete')
+						end
+					  end, function(data2, menu2)
+						menu2.close()
+					  end)
+				elseif action == 'camenu' then
+					local elements = {					
+						{label = _U('cam1'), value = 'cam1'},
+						{label = _U('cam2'), value = 'cam2'},
+						{label = _U('cam3'), value = 'cam3'},	
+						{label = _U('cam4'), value = 'cam4'},
+						{label = _U('cam5'), value = 'cam5'},	
+						{label = _U('cam6'), value = 'cam6'},	
+						{label = _U('cam7'), value = 'cam7'},
+						{label = _U('cam8'), value = 'cam8'},
+						{label = _U('cam9'), value = 'cam9'},
+						{label = _U('cam10'), value = 'cam10'},
+						{label = _U('cam11'), value = 'cam11'},
+						{label = _U('cam12'), value = 'cam12'},
+						{label = _U('cam13'), value = 'cam13'},
+						{label = _U('cam14'), value = 'cam14'},
+						{label = _U('cam15'), value = 'cam15'},
+						{label = _U('cam16'), value = 'cam16'},
+						{label = _U('cam17'), value = 'cam17'},
+						{label = _U('cam18'), value = 'cam18'},
+						{label = _U('cam19'), value = 'cam19'},	
+						{label = _U('cam20'), value = 'cam20'},	
+						{label = _U('cam21'), value = 'cam21'},			
+						{label = _U('cam22'), value = 'cam22'},
+						{label = _U('cam23'), value = 'cam23'},
+						{label = _U('cam24'), value = 'cam24'},	
+						{label = _U('cam25'), value = 'cam25'},	
+						{label = _U('cam26'), value = 'cam26'}
+					}
+
+					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'camenu', {
+						css      = 'police',
+						title    = 'Menu Camera',
+						align    = 'top-left',
+						elements = elements
+					}, function(data2, menu2)
+						local action = data2.current.value
+		
+						if action == 'cam1' then
+							TriggerEvent('cctv:camera', 25)  
+						elseif action == 'cam2' then
+							TriggerEvent('cctv:camera', 26)  	
+						elseif action == 'cam3' then
+							TriggerEvent('cctv:camera', 27)  
+						elseif action == 'cam4' then
+							TriggerEvent('cctv:camera', 1)  	
+						elseif action == 'cam5' then
+							TriggerEvent('cctv:camera', 2)  
+						elseif action == 'cam6' then
+							TriggerEvent('cctv:camera', 3)  
+						elseif action == 'cam7' then
+							TriggerEvent('cctv:camera', 4)  
+						elseif action == 'cam8' then
+							TriggerEvent('cctv:camera', 5)  
+						elseif action == 'cam9' then
+							TriggerEvent('cctv:camera', 6)  
+						elseif action == 'cam10' then
+							TriggerEvent('cctv:camera', 7)  
+						elseif action == 'cam11' then
+							TriggerEvent('cctv:camera', 8)  
+						elseif action == 'cam12' then
+							TriggerEvent('cctv:camera', 9)  	
+						elseif action == 'cam13' then
+							TriggerEvent('cctv:camera', 10)  	
+						elseif action == 'cam14' then
+							TriggerEvent('cctv:camera', 11)  	
+						elseif action == 'cam15' then
+							TriggerEvent('cctv:camera', 12)  						
+						elseif action == 'cam16' then
+							TriggerEvent('cctv:camera', 13)  						
+						elseif action == 'cam17' then
+							TriggerEvent('cctv:camera', 14)  						
+						elseif action == 'cam18' then
+							TriggerEvent('cctv:camera', 15)  						
+						elseif action == 'cam19' then
+							TriggerEvent('cctv:camera', 16)  						
+						elseif action == 'cam20' then
+							TriggerEvent('cctv:camera', 17)  						
+						elseif action == 'cam21' then
+							TriggerEvent('cctv:camera', 18)  
+						elseif action == 'cam22' then
+							TriggerEvent('cctv:camera', 20)  
+						elseif action == 'cam23' then				
+							TriggerEvent('cctv:camera', 21) 
+						elseif action == 'cam24' then				
+							TriggerEvent('cctv:camera', 22) 
+						elseif action == 'cam25' then				
+							TriggerEvent('cctv:camera', 23) 	
+						elseif action == 'cam26' then				
+							TriggerEvent('cctv:camera', 24) 					
+						elseif action ==  'exit' then
+							menu.close()					
+						end
+					end, function(data2, menu2)
+						menu2.close()
+					end)
+
+				elseif action == 'boucliermenu' then	
+					local elements  = {}
+		
+					local elements = {	
+						{label = _U('shield_police'), value = 'bouclier1'},	
+						{label = _U('shield_sheriff'), value = 'bouc2'},	
+						{label = _U('shield_swat'), value = 'bouc3'},
+						{label = _U('shield_fbi'), value = 'bouc4'}
+						{label = _U('shield_withWeapon'), value = 'schildw'}	
+					}
+					
+					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'boucliermenu', {
+						css      = 'police',
+						title    = 'Schild Menu',
+						align    = 'top-left',
+						elements = elements
+					}, function(data2, menu2)
+						local action = data2.current.value
+		
+						if action == 'bouclier1' then
+							TriggerEvent('shield:TogglePoliceShield')  
+						elseif action == 'bouc2' then
+							TriggerEvent('shield:ToggleSheriffShield')   	
+						elseif action == 'bouc3' then
+							TriggerEvent('shield:ToggleSwatShield')   	
+						elseif action == 'bouc4' then
+							TriggerEvent('shield:ToggleFibShield')   
+						elseif action == 'schilw' then
+							ExecuteCommand('shield') 									
+						end
+					end, function(data2, menu2)
+						menu2.close()
+					end)
+				elseif action == 'verkehr' then
+					TriggerServerEvent('TrafficManager:ToggleMenu')
+						menu2.close()
+                        menu.close()
+				elseif action == 'rd_mobile' then
+					TriggerEvent('police:POLICE_radar')
+				end
+
+			end, function(data2, menu2)
+				menu2.close()
+			end) 	
+
+		-- End of the edited menu	
 		elseif data.current.value == 'object_spawner' then
 			ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'citizen_interaction', {
 				title    = _U('traffic_interaction'),
 				align    = 'top-left',
 				elements = {
-					{label = _U('cone'), model = 'prop_roadcone02a'},
-					{label = _U('barrier'), model = 'prop_barrier_work05'},
-					{label = _U('spikestrips'), model = 'p_ld_stinger_s'},
-					{label = _U('box'), model = 'prop_boxpile_07d'},
-					{label = _U('cash'), model = 'hei_prop_cash_crate_half_full'}
+					{label = _U('cone'),		model = 'prop_roadcone02a'},
+					{label = _U('coneLong'),		model = 'prop_mp_cone_04'},
+					{label = _U('barrier'),	model = 'prop_barrier_work05'},
+					{label = _U('barrier2'),			model = 'prop_barrier_work06a'},
+					{label = _U('barrier3'),		model = 'prop_barrier_work02a'},
+					{label = _U('spikestrips'),		model = 'p_ld_stinger_s'}
 			}}, function(data2, menu2)
 				local playerPed = PlayerPedId()
 				local coords, forward = GetEntityCoords(playerPed), GetEntityForwardVector(playerPed)
@@ -1163,8 +1526,8 @@ Citizen.CreateThread(function()
 		local playerPed = PlayerPedId()
 
 		if isHandcuffed then
-			DisableControlAction(0, 1, true) -- Disable pan
-			DisableControlAction(0, 2, true) -- Disable tilt
+			--DisableControlAction(0, 1, true) -- Disable pan
+			--DisableControlAction(0, 2, true) -- Disable tilt
 			DisableControlAction(0, 24, true) -- Attack
 			DisableControlAction(0, 257, true) -- Attack 2
 			DisableControlAction(0, 25, true) -- Aim
@@ -1185,7 +1548,7 @@ Citizen.CreateThread(function()
 			DisableControlAction(0, 170, true) -- Animations
 			DisableControlAction(0, 167, true) -- Job
 
-			DisableControlAction(0, 0, true) -- Disable changing view
+			--DisableControlAction(0, 0, true) -- Disable changing view
 			DisableControlAction(0, 26, true) -- Disable looking behind
 			DisableControlAction(0, 73, true) -- Disable clearing animation
 			DisableControlAction(2, 199, true) -- Disable pause screen
@@ -1349,10 +1712,11 @@ end)
 Citizen.CreateThread(function()
 	local trackedEntities = {
 		'prop_roadcone02a',
+		'prop_mp_cone_04',
 		'prop_barrier_work05',
+		'prop_barrier_work06a',
 		'p_ld_stinger_s',
-		'prop_boxpile_07d',
-		'hei_prop_cash_crate_half_full'
+		'prop_barrier_work02a'
 	}
 
 	while true do
@@ -1574,3 +1938,95 @@ function ImpoundVehicle(vehicle)
 	ESX.ShowNotification(_U('impound_successful'))
 	currentTask.busy = false
 end
+
+--
+--EIGENES MENU
+--
+
+RegisterNetEvent('police:InfoService')
+    AddEventHandler('police:InfoService', function(service, nom)
+	  if service == 'prise' then
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Officer beginnt Dienst', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-8\n~w~Information: ~g~Officer beginnt Dienst.', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	  elseif service == 'fin' then
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Officer endet Dienst', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-7\n~w~Information: ~g~Officer endet Dienst.', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	  elseif service == 'pause' then
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Officer geht in Pause', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-6\n~w~Information: ~g~Officer geht in Pause.', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	  elseif service == 'standby' then
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Stanby', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-8\n~w~Information: ~g~Standby für Calls.', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	  elseif service == 'control' then
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Verkehrskontrolle', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-11\n~w~Information: ~g~Verkehrskontrolle im Gange.', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	  elseif service == 'refus' then
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Person verweigert', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-30\n~w~Information: ~g~Person verweigert sich / Flucht.', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	  elseif service == 'crime' then
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Verbrechen im Gange', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-31\n~w~Information: ~g~Verbrechen im Gange.', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	  end
+end)
+
+RegisterNetEvent('renfort:setBlip')
+AddEventHandler('renfort:setBlip', function(coords, raison)
+	  if raison == 'petit' then
+			--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  PlaySoundFrontend(-1, "OOB_Start", "GTAO_FM_Events_Soundset", 1)
+		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Unterst tzung Anfrage', 'Unterst tzung Anfrage.\nR ponse: ~g~CODE-2\n~w~Stufe: ~g~leicht.', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+		  color = 2
+	  elseif raison == 'importante' then
+			--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  PlaySoundFrontend(-1, "OOB_Start", "GTAO_FM_Events_Soundset", 1)
+		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Unterst tzung Anfrage', 'Unterst tzung Anfrage.\nR ponse: ~g~CODE-3\n~w~Stufe: ~o~Wichtig.', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+		  color = 47
+	  elseif raison == 'omgad' then
+			--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		  PlaySoundFrontend(-1, "OOB_Start", "GTAO_FM_Events_Soundset", 1)
+		  PlaySoundFrontend(-1, "FocusIn", "HintCamSounds", 1)
+		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Unterst tzung Anfrage', 'Unterst tzung Anfrage.\nR ponse: ~g~CODE-99\n~w~Stufe: ~r~DRINGEND/WICHTIG', 'CHAR_MP_MERRYWEATHER', 8)
+		  Wait(1000)
+		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+		  PlaySoundFrontend(-1, "FocusOut", "HintCamSounds", 1)
+		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
+		  color = 1
+	  end
+	  local blipId = AddBlipForCoord(coords)
+	  SetBlipSprite(blipId, 161)
+	  SetBlipScale(blipId, 1.2)
+	  SetBlipColour(blipId, color)
+	  BeginTextCommandSetBlipName("STRING")
+	  AddTextComponentString('Demande renfort')
+	  EndTextCommandSetBlipName(blipId)
+	  Wait(80 * 1000)
+	  RemoveBlip(blipId)
+end)
+
+

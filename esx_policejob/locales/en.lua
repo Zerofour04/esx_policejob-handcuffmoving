@@ -1,5 +1,7 @@
 Locales['en'] = {
+  --
   -- Cloakroom
+  --
   ['cloakroom'] = 'locker room',
   ['citizen_wear'] = 'civilian Outfit',
   ['police_wear'] = 'police Outfit',
@@ -7,7 +9,9 @@ Locales['en'] = {
   ['bullet_wear'] = 'bulletproof vest',
   ['no_outfit'] = 'there\'s no uniform that fits you!',
   ['open_cloackroom'] = 'press ~INPUT_CONTEXT~ to change ~y~clothes~s~.',
+  --
   -- Armory
+  --
   ['remove_object'] = 'withdraw object',
   ['deposit_object'] = 'deposit object',
   ['get_weapon'] = 'withdraw weapon from armory',
@@ -25,7 +29,9 @@ Locales['en'] = {
   ['armory_hascomponent'] = 'you have that attatchment equiped!',
   ['get_weapon_menu'] = 'armory - Withdraw Weapon',
   ['put_weapon_menu'] = 'armory - Store Weapon',
+  --
   -- Vehicles
+  --
   ['vehicle_menu'] = 'vehicle',
   ['vehicle_blocked'] = 'all available spawn points are currently blocked!',
   ['garage_prompt'] = 'press ~INPUT_CONTEXT~ to access the ~y~Vehicle Actions~s~.',
@@ -53,7 +59,9 @@ Locales['en'] = {
   ['vehicleshop_awaiting_model'] = 'the vehicle is currently ~g~DOWNLOADING & LOADING~s~ please wait',
   ['confirm_no'] = 'no',
   ['confirm_yes'] = 'yes',
+  --
   -- Service
+  --
   ['service_max'] = 'you cannot enter service, max officers in service: %s/%s',
   ['service_not'] = 'you have not entered service! You\'ll have to get changed first.',
   ['service_anonunce'] = 'service information',
@@ -61,11 +69,82 @@ Locales['en'] = {
   ['service_in_announce'] = 'operator ~y~%s~s~ has entered service!',
   ['service_out'] = 'you have left service.',
   ['service_out_announce'] = 'operator ~y~%s~s~ has left their service.',
-  -- Action Menu
+  --
+  -- Action menu
+  --
   ['citizen_interaction'] = 'citizen Interaction',
   ['vehicle_interaction'] = 'vehicle Interaction',
   ['object_spawner'] = 'object Spawner',
+  ['policemenue'] = 'Police Menu',
 
+  -- PoliceMenu
+  ['backup_menu'] = 'Backup Menu',
+  ['bodycam_action'] = 'Activate Bodycam',
+  ['police_mdt'] = 'Open MDT',
+  ['status'] = 'Give Status',
+  ['request'] = 'Request Backup',
+  ['police_badge'] = 'Police Badge',
+  ['k9_dog'] = 'K9 Interactions',
+  ['cameras'] = 'Camera menu',
+  ['shield_actions'] = 'Use Shield',
+  ['speed_camera'] = 'Place Speedcamera',
+  ['traffic_manager'] = 'Manage traffic',
+
+  -- BackUp
+  ['requestBackup1'] = 'Requesting Code2' ,
+  ['requestBackup2'] = 'Requesting Code3',
+  ['requestBackup3'] = 'Requesting Code99',
+  
+  -- Police badge
+  ['check_police'] = 'Check Police badge',
+  ['show_policebadge'] = 'Show Police badge',
+
+  -- Police K9 Dog
+  ['k9_spawn'] = 'Spawn K9',
+  ['k9_follow'] = 'K9 Follow',
+  ['k9_stay'] = 'K9 Stay',
+  ['k9_searchVehicle'] = 'K9 Search Vehicle',
+  ['k9_searchPerson'] = 'K9 Search Citizen',
+  ['k9_jumpIntoVeh'] = 'K9 Enter Vehicle',
+  ['k9_jumpOutVeh'] = 'K9 Exit Vehicle',
+  ['k9_despawn'] = 'K9 Dismiss',
+
+  -- Cameras
+  ['cam1'] = 'Ballas',
+  ['cam2'] = 'Families',
+  ['cam3'] = 'Vagos',
+  ['cam4'] = 'Store 1',
+  ['cam5'] = 'Store 2',
+  ['cam6'] = 'Store 3',
+  ['cam7'] = 'Store 4',
+  ['cam8'] = 'Store 5',
+  ['cam9'] = 'Store 6',
+  ['cam10'] = 'Store 7',
+  ['cam11'] = 'Store 8',
+  ['cam12'] = 'Store 9',
+  ['cam13'] = 'Store 10',
+  ['cam14'] = 'Store 11',
+  ['cam15'] = 'Store 12',
+  ['cam16'] = 'Store 13',
+  ['cam17'] = 'Store 14',
+  ['cam18'] = 'Store 15',
+  ['cam19'] = 'Store 16',
+  ['cam20'] = 'Store 17',
+  ['cam21'] = 'Store 18',
+  ['cam22'] = 'Jail 1',
+  ['cam23'] = 'Jail 2',
+  ['cam24'] = 'Jewelry store',
+  ['cam25'] = 'Paleto Bank exterior',
+  ['cam26'] = 'Main bank',
+
+  -- Shield
+  ['shield_police'] = 'Police shield',
+  ['shield_sheriff'] = 'Sheriff shield',
+  ['shield_swat'] = 'SWAT shield',
+  ['shield_fbi'] = 'FBI shield',
+  ['shield_withWeapon'] = 'Shield with weapon',
+
+  -- Citizen interaction
   ['id_card'] = 'ID Card',
   ['search'] = 'search',
   ['handcuff'] = 'cuff / Uncuff',
@@ -73,6 +152,7 @@ Locales['en'] = {
   ['put_in_vehicle'] = 'put in Vehicle',
   ['out_the_vehicle'] = 'drag out from vehicle',
   ['fine'] = 'fine',
+  ['communityservice'] = 'Community Service',
   ['unpaid_bills'] = 'manage unpaid bills',
   ['license_check'] = 'manage license',
   ['license_revoke'] = 'revoke license',
@@ -93,10 +173,13 @@ Locales['en'] = {
   ['search_database'] = 'vehicle information',
   ['search_database_title'] = 'vehicle information - search with registration number',
   ['search_database_error_invalid'] = 'that is ~r~not~s~ a ~y~valid~s~ registration number',
-  -- Traffic interaction
+  -- Traffic/Object interaction
   ['traffic_interaction'] = 'interaction Traffic',
-  ['cone'] = 'cone',
-  ['barrier'] = 'barrier',
+  ['cone'] = 'Short cone',
+  ['coneLong'] = 'Long cone',
+  ['barrier'] = 'Police Barrier',
+  ['barrier2'] = 'Traffic barrier',
+  ['barrier2'] = 'Traffic barrier2', 
   ['spikestrips'] = 'spikestrips',
   ['box'] = 'box',
   ['cash'] = 'box of cash',
