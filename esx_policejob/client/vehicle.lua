@@ -93,7 +93,12 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 										ESX.Game.SetVehicleProperties(vehicle, vehicleProps)
 
 										TriggerServerEvent('esx_vehicleshop:setJobVehicleState', data2.current.plate, false)
+
+                                                                         local vehicleModel = GetDisplayNameFromVehicleModel(GetEntityModel(vehicle))
+									 TriggerServerEvent('RufiCarkey:RegisterPlate', newPlate, vehicleModel)
+
 										ESX.ShowNotification(_U('garage_released'))
+										exports["LegacyFuel"]:SetFuel(vehicle, 100)
 									end)
 								end
 							else
@@ -116,6 +121,13 @@ function OpenVehicleSpawnerMenu(type, station, part, partNum)
 		menu.close()
 	end)
 end
+
+function SpawnVehicle(modelHash)
+    local vehicle = CreateVehicle(modelHash, coords.x, coords.y, coords.z, true, false)
+
+    exports["LegacyFuel"]:SetFuel(vehicle, 100)
+end
+
 
 function StoreNearbyVehicle(playerCoords)
 	local vehicles, vehiclePlates = ESX.Game.GetVehiclesInArea(playerCoords, 30.0), {}

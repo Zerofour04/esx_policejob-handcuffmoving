@@ -5,21 +5,21 @@ Config.MarkerType                 = {Cloakrooms = 20, Armories = 21, BossActions
 Config.MarkerSize                 = {x = 1.5, y = 1.5, z = 0.5}
 Config.MarkerColor                = {r = 50, g = 50, b = 204}
 
-Config.EnablePlayerManagement     = false -- Enable if you want society managing.
-Config.EnableArmoryManagement     = false
-Config.EnableESXIdentity          = false -- Enable if you're using esx_identity.
-Config.EnableLicenses             = false -- Enable if you're using esx_license.
+Config.EnablePlayerManagement     = true -- Enable if you want society managing.
+Config.EnableArmoryManagement     = true
+Config.EnableESXIdentity          = true -- Enable if you're using esx_identity.
+Config.EnableLicenses             = true -- Enable if you're using esx_license.
 
-Config.EnableHandcuffTimer        = true -- Enable handcuff timer? will unrestrain player after the time ends.
+Config.EnableHandcuffTimer        = false -- Enable handcuff timer? will unrestrain player after the time ends.
 Config.HandcuffTimer              = 10 * 60000 -- 10 minutes.
 
-Config.EnableJobBlip              = false -- Enable blips for cops on duty, requires esx_society.
+Config.EnableJobBlip              = true -- Enable blips for cops on duty, requires esx_society.
 Config.EnableCustomPeds           = false -- Enable custom peds in cloak room? See Config.CustomPeds below to customize peds.
 
 Config.EnableESXService           = false -- Enable esx service?
-Config.MaxInService               = -1 -- How much people can be in service at once?
+Config.MaxInService               = 20 -- How much people can be in service at once?
 
-Config.Locale                     = 'en'
+Config.Locale = 'de'
 
 Config.PoliceStations = {
 
@@ -34,11 +34,13 @@ Config.PoliceStations = {
 		},
 
 		Cloakrooms = {
-			vector3(452.6, -992.8, 30.6)
+			vector3(452.6, -992.8, 30.6),
+			vector3(-473.92, 5983.78, 31.42)	--Sheriff
 		},
 
 		Armories = {
-			vector3(451.7, -980.1, 30.6)
+			vector3(451.7, -980.1, 0.6), --30
+			vector3(-481.89, 5993.36, 0.42) 	--Sheriff 31
 		},
 
 		Vehicles = {
@@ -54,18 +56,18 @@ Config.PoliceStations = {
 			},
 
 			{
-				Spawner = vector3(473.3, -1018.8, 28.0),
-				InsideShop = vector3(228.5, -993.5, -99.0),
+				Spawner = vector3(-467.4, 6002.41, 31.3),
+				InsideShop = vector3(-470.25, 6015.46, 31.43),
 				SpawnPoints = {
-					{coords = vector3(475.9, -1021.6, 28.0), heading = 276.1, radius = 6.0},
-					{coords = vector3(484.1, -1023.1, 27.5), heading = 302.5, radius = 6.0}
+					{coords = vector3(-470.25, 6015.46, 31.43), heading = 276.1, radius = 6.0}
 				}
 			}
 		},
 
+
 		Helicopters = {
 			{
-				Spawner = vector3(461.1, -981.5, 43.6),
+				Spawner = vector3(449.09, -981.32, 43.69),
 				InsideShop = vector3(477.0, -1106.4, 43.0),
 				SpawnPoints = {
 					{coords = vector3(449.5, -981.2, 43.6), heading = 92.6, radius = 10.0}
@@ -73,8 +75,20 @@ Config.PoliceStations = {
 			}
 		},
 
+		--Sheriff
+		--Helicopters = {
+		--	{
+		--		Spawner = vector3(-476.87, 5989.21, 37.38),
+		--		InsideShop = vector3(-476.87, 5989.21, 37.38),
+		--		SpawnPoints = {
+		--			{coords = vector3(-476.87, 5989.21, 37.38), heading = 92.6, radius = 10.0}
+		--		}
+		--	}
+		--},
+
 		BossActions = {
-			vector3(448.4, -973.2, 30.6)
+			vector3(464.29, -1009.35, 35.93),
+			vector3(-487.08, 5988.33, 31.42)	--Sheriff
 		}
 
 	}
@@ -83,45 +97,51 @@ Config.PoliceStations = {
 
 Config.AuthorizedWeapons = {
 	recruit = {
-		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
-		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
-		{weapon = 'WEAPON_STUNGUN', price = 1500},
-		{weapon = 'WEAPON_FLASHLIGHT', price = 80}
+		{weapon = 'WEAPON_COMBATPISTOL', price = 1},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 1},
+		{weapon = 'WEAPON_STUNGUN', price = 1},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 1}
 	},
 
 	officer = {
-		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
-		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {0, 6000, 1000, 4000, 8000, nil}, price = 50000},
-		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
-		{weapon = 'WEAPON_STUNGUN', price = 500},
-		{weapon = 'WEAPON_FLASHLIGHT', price = 0}
+		{weapon = 'WEAPON_COMBATPISTOL', price = 1},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 1},
+		{weapon = 'WEAPON_STUNGUN', price = 1},
+		{weapon = 'WEAPON_SMG', price = 1},
+		{weapon = 'WEAPON_PUMPSHOTGUN', price = 1},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 1},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 1}
 	},
 
 	sergeant = {
-		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
-		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {0, 6000, 1000, 4000, 8000, nil}, price = 50000},
-		{weapon = 'WEAPON_PUMPSHOTGUN', components = {2000, 6000, nil}, price = 70000},
-		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
-		{weapon = 'WEAPON_STUNGUN', price = 500},
-		{weapon = 'WEAPON_FLASHLIGHT', price = 0}
+		{weapon = 'WEAPON_COMBATPISTOL', price = 1},
+		{weapon = 'WEAPON_SMG', price = 1},
+		{weapon = 'WEAPON_CARBINERIFLE', price = 1},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 1},
+		{weapon = 'WEAPON_STUNGUN', price = 1},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 1}
 	},
 
 	lieutenant = {
-		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
-		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {0, 6000, 1000, 4000, 8000, nil}, price = 50000},
-		{weapon = 'WEAPON_PUMPSHOTGUN', components = {2000, 6000, nil}, price = 70000},
-		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
-		{weapon = 'WEAPON_STUNGUN', price = 500},
-		{weapon = 'WEAPON_FLASHLIGHT', price = 0}
+		{weapon = 'WEAPON_COMBATPISTOL', price = 1},
+		{weapon = 'WEAPON_SMG', price = 1},
+		{weapon = 'WEAPON_CARBINERIFLE', price = 1},
+		{weapon = 'WEAPON_PUMPSHOTGUN', price = 1},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 1},
+		{weapon = 'WEAPON_STUNGUN', price = 1},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 1}
 	},
 
 	boss = {
-		{weapon = 'WEAPON_APPISTOL', components = {0, 0, 1000, 4000, nil}, price = 10000},
-		{weapon = 'WEAPON_ADVANCEDRIFLE', components = {0, 6000, 1000, 4000, 8000, nil}, price = 50000},
-		{weapon = 'WEAPON_PUMPSHOTGUN', components = {2000, 6000, nil}, price = 70000},
-		{weapon = 'WEAPON_NIGHTSTICK', price = 0},
-		{weapon = 'WEAPON_STUNGUN', price = 500},
-		{weapon = 'WEAPON_FLASHLIGHT', price = 0}
+		{weapon = 'WEAPON_COMBATPISTOL', price = 1},
+		{weapon = 'WEAPON_SMG', price = 1},
+		{weapon = 'WEAPON_CARBINERIFLE', price = 1},
+		{weapon = 'WEAPON_PUMPSHOTGUN', price = 1},
+		{weapon = 'WEAPON_NIGHTSTICK', price = 1},
+		{weapon = 'WEAPON_STUNGUN', price = 1},
+		{weapon = 'WEAPON_SNIPERRIFLE', price = 1},
+		{weapon = 'WEAPON_FLASHBANG', price = 1},
+		{weapon = 'WEAPON_FLASHLIGHT', price = 1}
 	}
 }
 
@@ -129,21 +149,28 @@ Config.AuthorizedVehicles = {
 	car = {
 		recruit = {},
 
-		officer = {
-			{model = 'police3', price = 20000}
-		},
+		officer = {},
 
-		sergeant = {
-			{model = 'policet', price = 18500},
-			{model = 'policeb', price = 30500}
-		},
+		sergeant = {},
 
-		lieutenant = {
-			{model = 'riot', price = 70000},
-			{model = 'fbi2', price = 60000}
-		},
+		lieutenant = {},
 
-		boss = {}
+		boss = {
+			{model = 'fbi', price = 55500},
+			{model = 'fbi2', price = 59999},
+			{model = 'pranger', price = 55999},
+			{model = 'police', price = 95999},
+			{model = 'police2', price = 109999},
+			{model = 'police3', price = 59999},
+			{model = 'police4', price = 45999},
+			{model = 'policeb', price = 16988},
+			{model = 'sheriff', price = 59999},
+			{model = 'sheriff2', price = 59500},
+			{model = 'policeold1', price = 65999},
+			{model = 'policeold2', price = 45000},
+			{model = 'policet', price = 65999},
+			{model = 'pitbullbb', price = 120000},
+		}
 	},
 
 	helicopter = {
@@ -154,11 +181,11 @@ Config.AuthorizedVehicles = {
 		sergeant = {},
 
 		lieutenant = {
-			{model = 'polmav', props = {modLivery = 0}, price = 200000}
+			{model = 'polmav', props = {modLivery = 0}, price = 12300000}
 		},
 
 		boss = {
-			{model = 'polmav', props = {modLivery = 0}, price = 100000}
+			{model = 'polmav', props = {modLivery = 0}, price = 12300000}
 		}
 	}
 }
