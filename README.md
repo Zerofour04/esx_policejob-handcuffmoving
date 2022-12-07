@@ -1,33 +1,46 @@
-# 🚓esx_policejob
+<h1 align="center"> 🚓esx_policejob</h1>
 
-This is a police job for FiveM. You need ESX. I edited this so that you can move when you are arrested.
-👑 Creator: [ESX Framework](https://github.com/esx-framework)
-🛠️ Forked by: [Zerofour](https://github.com/Zerofour04)
+## 👑Creator: [ESX Framework](https://github.com/esx-framework)
+## 🛠️Forked/Edited by: [Zerofour](https://github.com/Zerofour04)
 
-### 🧱Requirements
-* Auto mode
-  * [esx_billing](https://github.com/ESX-Org/esx_billing)
-  * [esx_vehicleshop](https://github.com/ESX-Org/esx_vehicleshop)
+---
 
-* Player management (boss actions and armory with buyable weapons)
-  * [esx_addoninventory](https://github.com/ESX-Org/esx_addoninventory)
-  * [esx_datastore](https://github.com/ESX-Org/esx_datastore)
-  * [esx_society](https://github.com/ESX-Org/esx_society)
+## ⭐Features
+- Camera system
+- Shield system
+- Speed measurement
+- S 
+- You can move if you're under arrest
 
-* ESX Identity Support
-  * [esx_identity](https://github.com/ESX-Org/esx_identity)
+## ⚙️Changelogs:
+### [2.0.0] - Dec 4, 2022
+ - Added Backup Sound when you request Backup
+ - Added more objects in the traffic interaction
+  - Added some Sheriff coordinates
+ - Added own police menu
+   - Bodycam feature
+   - MDT system
+   - Status of officer
+   - Police Backup menu
+   - K9 Dog Menu
+   - Camera system
+   - Shieldmenu
+   - Speed measurement
+   - Traffic Manager system
+ - Updated `fx_version`
+ - Fixed some translation error
+ - Fixed some SQL File type errors
 
-* ESX License Support
-  * [esx_license](https://github.com/ESX-Org/esx_license)
+### [1.0.0] - Mar 27, 2021
+  - Rewritten so that people can move while wearing handcuffs
 
-* ESX Service Support
-  * [esx_service](https://github.com/ESX-Org/esx_service)
+## 🖼️Pictures:
+<img src="https://user-images.githubusercontent.com/60815764/206313947-90388b07-0929-4c97-ae37-64b9368dd141.png" width=40%>
+<img src="https://user-images.githubusercontent.com/60815764/206313945-7351d773-30b6-4feb-98a2-31d7ff4240b0.png" width=40%>
+<img src="https://user-images.githubusercontent.com/60815764/206313943-299467cc-e99a-4c4e-beee-52169261dd7c.png" width=40%>
 
-* ESX Status Support
-  * [esx_status](https://github.com/ESX-Org/esx_status)
 
 ## 📋Download & Installation
-
 ### Using [fvm](https://github.com/qlaffont/fvm-installer)
 ```
 fvm install --save --folder=esx esx-org/esx_policejob
@@ -40,17 +53,33 @@ git clone https://github.com/ESX-Org/esx_policejob [esx]/esx_policejob
 ```
 
 ### Manually
-- 1. Download https://github.com/ESX-Org/esx_policejob/archive/master.zip
-- 2. Put it in the `[esx]` directory
-
-
-## ⚠️Important Installation
-- Import `esx_policejob.sql` in your database
-- Add this to your server.cfg:
-
+1. Download https://github.com/ESX-Org/esx_policejob/archive/master.zip
+2. Put it in the `[esx]` directory
+3. Import `esx_policejob.sql` in your database
+4. Add this to your server.cfg:
 ```
 start esx_policejob
 ```
+
+## 🧱Requirements
+### Default:
+* Auto mode
+  * [esx_billing](https://github.com/ESX-Org/esx_billing)
+  * [esx_vehicleshop](https://github.com/ESX-Org/esx_vehicleshop)
+* Player management (boss actions and armory with buyable weapons)
+  * [esx_addoninventory](https://github.com/ESX-Org/esx_addoninventory)
+  * [esx_datastore](https://github.com/ESX-Org/esx_datastore)
+  * [esx_society](https://github.com/ESX-Org/esx_society)
+* ESX Identity Support
+  * [esx_identity](https://github.com/ESX-Org/esx_identity)
+* ESX License Support
+  * [esx_license](https://github.com/ESX-Org/esx_license)
+* ESX Service Support
+  * [esx_service](https://github.com/ESX-Org/esx_service)
+* ESX Status Support
+  * [esx_status](https://github.com/ESX-Org/esx_status)
+
+
 
 ## 📝Notes
 -  * If you want player management you have to set `Config.EnablePlayerManagement` to `true` in `config.lua`
