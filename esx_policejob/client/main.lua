@@ -519,15 +519,12 @@ function OpenPoliceActionsMenu()
 						if action == 'petite_demande' then
 							local raison = 'petit'
 							TriggerServerEvent('renfort', coords, raison)
-							--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
 						elseif action == 'demande_importante' then
 							local raison = 'importante'
 							TriggerServerEvent('renfort', coords, raison)
-							--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
 						elseif action == 'omgad' then
 							local raison = 'omgad'
 							TriggerServerEvent('renfort', coords, raison)
-							--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
 						end
 		
 					end, function(data2, menu2)
@@ -558,13 +555,13 @@ function OpenPoliceActionsMenu()
                     
                                 end
                             else
-                                ESX.ShowNotification('No players nearby')
+                                ESX.ShowNotification(_U('no_players_nearby'))
                             end
                         end        
                     end, function(data, menu)
                         menu.close()
                     end)
-				elseif data.current.value == 'k9' then
+				elseif action == 'k9' then
 					local elements = {	
 						{label = _U('k9_spawn'), value = 'k9spawn'},
 						{label = _U('k9_follow'), value = 'k9follow'},
@@ -576,7 +573,7 @@ function OpenPoliceActionsMenu()
 						{label = _U('k9_despawn'), value = 'k9delete'}	
 					}
 
-					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'k9_interaction', {
+					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'k9', {
 						title    = 'K9 Actions',
 						align    = 'bottom-right',
 						elements = elements
@@ -707,7 +704,7 @@ function OpenPoliceActionsMenu()
 						{label = _U('shield_police'), value = 'bouclier1'},	
 						{label = _U('shield_sheriff'), value = 'bouc2'},	
 						{label = _U('shield_swat'), value = 'bouc3'},
-						{label = _U('shield_fbi'), value = 'bouc4'}
+						{label = _U('shield_fbi'), value = 'bouc4'},
 						{label = _U('shield_withWeapon'), value = 'schildw'}	
 					}
 					
@@ -727,7 +724,7 @@ function OpenPoliceActionsMenu()
 							TriggerEvent('shield:ToggleSwatShield')   	
 						elseif action == 'bouc4' then
 							TriggerEvent('shield:ToggleFibShield')   
-						elseif action == 'schilw' then
+						elseif action == 'schildw' then
 							ExecuteCommand('shield') 									
 						end
 					end, function(data2, menu2)
@@ -1944,89 +1941,81 @@ end
 --
 
 RegisterNetEvent('police:InfoService')
-    AddEventHandler('police:InfoService', function(service, nom)
-	  if service == 'prise' then
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Officer beginnt Dienst', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-8\n~w~Information: ~g~Officer beginnt Dienst.', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-	  elseif service == 'fin' then
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Officer endet Dienst', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-7\n~w~Information: ~g~Officer endet Dienst.', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-	  elseif service == 'pause' then
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Officer geht in Pause', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-6\n~w~Information: ~g~Officer geht in Pause.', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-	  elseif service == 'standby' then
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Stanby', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-8\n~w~Information: ~g~Standby für Calls.', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-	  elseif service == 'control' then
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Verkehrskontrolle', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-11\n~w~Information: ~g~Verkehrskontrolle im Gange.', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-	  elseif service == 'refus' then
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Person verweigert', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-30\n~w~Information: ~g~Person verweigert sich / Flucht.', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-	  elseif service == 'crime' then
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Verbrechen im Gange', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-31\n~w~Information: ~g~Verbrechen im Gange.', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-	  end
+AddEventHandler('police:InfoService', function(service, nom)
+	if service == 'prise' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~Entry into service', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-8\n~w~Information: ~g~Entry into service.', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	elseif service == 'fin' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~End of service', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-10\n~w~Information: ~g~End of service.', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	elseif service == 'pause' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~Service break', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-6\n~w~Information: ~g~Service break.', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	elseif service == 'standby' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~Standby', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-12\n~w~Information: ~g~Standby, awaiting dispatch.', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	elseif service == 'control' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~Traffic control', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-48\n~w~Information: ~g~Traffic control in progress.', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	elseif service == 'refus' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~Hit and Run', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-30\n~w~Information: ~g~Refusal to comply / Hit and run in progress.', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	elseif service == 'crime' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~Crime in progress', 'Agent: ~g~'..nom..'\n~w~Code: ~g~10-31\n~w~Information: ~g~Crime in progress / prosecution in progress.', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+	end
 end)
 
 RegisterNetEvent('renfort:setBlip')
 AddEventHandler('renfort:setBlip', function(coords, raison)
-	  if raison == 'petit' then
-			--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  PlaySoundFrontend(-1, "OOB_Start", "GTAO_FM_Events_Soundset", 1)
-		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Unterst tzung Anfrage', 'Unterst tzung Anfrage.\nR ponse: ~g~CODE-2\n~w~Stufe: ~g~leicht.', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
-		  color = 2
-	  elseif raison == 'importante' then
-			--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  PlaySoundFrontend(-1, "OOB_Start", "GTAO_FM_Events_Soundset", 1)
-		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Unterst tzung Anfrage', 'Unterst tzung Anfrage.\nR ponse: ~g~CODE-3\n~w~Stufe: ~o~Wichtig.', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
-		  color = 47
-	  elseif raison == 'omgad' then
-			--TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
-		  PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
-		  PlaySoundFrontend(-1, "OOB_Start", "GTAO_FM_Events_Soundset", 1)
-		  PlaySoundFrontend(-1, "FocusIn", "HintCamSounds", 1)
-		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
-		  ESX.ShowAdvancedNotification('RaceNightPD', '~b~Unterst tzung Anfrage', 'Unterst tzung Anfrage.\nR ponse: ~g~CODE-99\n~w~Stufe: ~r~DRINGEND/WICHTIG', 'CHAR_MP_MERRYWEATHER', 8)
-		  Wait(1000)
-		  PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
-		  PlaySoundFrontend(-1, "FocusOut", "HintCamSounds", 1)
-		  --TriggerClientEvent("InteractSound_CL:PlayOnOne", source, 'Backup', 0.5)
-		  color = 1
-	  end
-	  local blipId = AddBlipForCoord(coords)
-	  SetBlipSprite(blipId, 161)
-	  SetBlipScale(blipId, 1.2)
-	  SetBlipColour(blipId, color)
-	  BeginTextCommandSetBlipName("STRING")
-	  AddTextComponentString('Demande renfort')
-	  EndTextCommandSetBlipName(blipId)
-	  Wait(80 * 1000)
-	  RemoveBlip(blipId)
+	if raison == 'petit' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		PlaySoundFrontend(-1, "OOB_Start", "GTAO_FM_Events_Soundset", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~Backup requested', 'Requesting Backup:.\nRéponse: ~g~CODE-2\n~w~Type: ~g~Light.', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+		SetNewWaypoint(coords.x, coords.y)
+		color = 2
+	elseif raison == 'importante' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		PlaySoundFrontend(-1, "OOB_Start", "GTAO_FM_Events_Soundset", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~Backup requested', 'Requesting Backup:.\nRéponse: ~g~CODE-3\n~w~Type: ~o~Important.', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+		SetNewWaypoint(coords.x, coords.y)
+		color = 47
+	elseif raison == 'omgad' then
+		PlaySoundFrontend(-1, "Start_Squelch", "CB_RADIO_SFX", 1)
+		PlaySoundFrontend(-1, "OOB_Start", "GTAO_FM_Events_Soundset", 1)
+		PlaySoundFrontend(-1, "FocusIn", "HintCamSounds", 1)
+		ESX.ShowAdvancedNotification('LSPD INFORMATIONS', '~b~Backup requested', 'Requesting Backup:.\nRéponse: ~g~CODE-99\n~w~Type: ~r~IMMEDIATELY !\nDANGER IMPORTANT', 'CHAR_CALL911', 8)
+		Wait(1000)
+		PlaySoundFrontend(-1, "End_Squelch", "CB_RADIO_SFX", 1)
+		PlaySoundFrontend(-1, "FocusOut", "HintCamSounds", 1)
+		SetNewWaypoint(coords.x, coords.y)
+		color = 1
+	end
+	local blipId = AddBlipForCoord(coords)
+	SetBlipSprite(blipId, 526)
+	SetBlipScale(blipId, 1.2)
+	SetBlipColour(blipId, color)
+	BeginTextCommandSetBlipName("STRING")
+	AddTextComponentString('Backup requested')
+	EndTextCommandSetBlipName(blipId)
+	Wait(80 * 1000)
+	RemoveBlip(blipId)
 end)
-
-

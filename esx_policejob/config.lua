@@ -19,7 +19,7 @@ Config.EnableCustomPeds           = false -- Enable custom peds in cloak room? S
 Config.EnableESXService           = false -- Enable esx service?
 Config.MaxInService               = 20 -- How much people can be in service at once?
 
-Config.Locale = 'de'
+Config.Locale = "en"
 
 Config.PoliceStations = {
 
@@ -35,12 +35,14 @@ Config.PoliceStations = {
 
 		Cloakrooms = {
 			vector3(452.6, -992.8, 30.6),
-			vector3(-473.92, 5983.78, 31.42)	--Sheriff
+			--Sheriff:
+			vector3(-473.92, 5983.78, 31.42)
 		},
 
 		Armories = {
-			vector3(451.7, -980.1, 0.6), --30
-			vector3(-481.89, 5993.36, 0.42) 	--Sheriff 31
+			vector3(451.7, -980.1, 30.6),
+			--Sheriff:
+			vector3(-481.89, 5993.36, 0.42)
 		},
 
 		Vehicles = {
@@ -55,6 +57,7 @@ Config.PoliceStations = {
 				}
 			},
 
+			-- Sheriff:
 			{
 				Spawner = vector3(-467.4, 6002.41, 31.3),
 				InsideShop = vector3(-470.25, 6015.46, 31.43),
@@ -88,7 +91,8 @@ Config.PoliceStations = {
 
 		BossActions = {
 			vector3(464.29, -1009.35, 35.93),
-			vector3(-487.08, 5988.33, 31.42)	--Sheriff
+			-- Sheriff
+			vector3(-487.08, 5988.33, 31.42)	
 		}
 
 	}
@@ -147,29 +151,40 @@ Config.AuthorizedWeapons = {
 
 Config.AuthorizedVehicles = {
 	car = {
-		recruit = {},
+		recruit = {
+			{model = 'police', price = 1},
+			{model = 'sheriff', price = 1}
+		},
 
-		officer = {},
+		officer = {
+			{model = 'sheriff', price = 1},
+			{model = 'police', price = 1},
+			{model = 'police3', price = 1}
+		},
 
-		sergeant = {},
+		sergeant = {
+			{model = 'police2', price = 1},
+			{model = 'police3', price = 1},
+			{model = 'policeb', price = 1},
+			{model = 'pranger', price = 1}
+		},
 
-		lieutenant = {},
+		lieutenant = {
+			{model = 'police', price = 1},
+			{model = 'police2', price = 1},
+			{model = 'police3', price = 1},
+			{model = 'police4', price = 1},
+			{model = 'fbi', price = 1},
+			{model = 'fbi2', price = 1},
+			{model = 'pranger', price = 1}
+		},
 
 		boss = {
-			{model = 'fbi', price = 55500},
-			{model = 'fbi2', price = 59999},
-			{model = 'pranger', price = 55999},
-			{model = 'police', price = 95999},
-			{model = 'police2', price = 109999},
-			{model = 'police3', price = 59999},
-			{model = 'police4', price = 45999},
-			{model = 'policeb', price = 16988},
-			{model = 'sheriff', price = 59999},
-			{model = 'sheriff2', price = 59500},
-			{model = 'policeold1', price = 65999},
-			{model = 'policeold2', price = 45000},
-			{model = 'policet', price = 65999},
-			{model = 'pitbullbb', price = 120000},
+			{model = 'policeb', price = 1},
+			{model = 'sheriff', price = 1},
+			{model = 'sheriff2', price = 1},
+			{model = 'policeold1', price = 1},
+			{model = 'policeold2', price = 1}
 		}
 	},
 

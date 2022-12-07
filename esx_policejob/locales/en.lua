@@ -96,7 +96,7 @@ Locales['en'] = {
   ['requestBackup3'] = 'Requesting Code99',
   
   -- Police badge
-  ['check_police'] = 'Check Police badge',
+  ['check_policebadge'] = 'Check Police badge',
   ['show_policebadge'] = 'Show Police badge',
 
   -- Police K9 Dog
@@ -179,7 +179,7 @@ Locales['en'] = {
   ['coneLong'] = 'Long cone',
   ['barrier'] = 'Police Barrier',
   ['barrier2'] = 'Traffic barrier',
-  ['barrier2'] = 'Traffic barrier2', 
+  ['barrier3'] = 'Traffic barrier3', 
   ['spikestrips'] = 'spikestrips',
   ['box'] = 'box',
   ['cash'] = 'box of cash',

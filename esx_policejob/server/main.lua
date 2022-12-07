@@ -117,11 +117,12 @@ AddEventHandler('renfort', function(coords, raison)
 	for i = 1, #xPlayers, 1 do
 		local thePlayer = ESX.GetPlayerFromId(xPlayers[i])
 		if thePlayer.job.name == 'police' then
-			TriggerClientEvent('renfort:setBlip', xPlayers[i], coords, _raison)
-			TriggerClientEvent("InteractSound_CL:PlayOnOne", _source, 'Backup', 0.5)
+			TriggerClientEvent('InteractSound_CL:PlayOnOne', xPlayer.source, 'Backup', 0.5)   
+			TriggerClientEvent('renfort:setBlip', xPlayers[i], coords, _raison)  
 		end
 	end
 end)
+
 
 --ENDE
 RegisterNetEvent('esx_policejob:handcuff')
