@@ -507,7 +507,7 @@ function OpenPoliceActionsMenu()
 		
 					ESX.UI.Menu.Open('default', GetCurrentResourceName(), 'renfort', {
 						css      = 'police',
-						title    = ('Menu renfort'),
+						title    = ('Police Backup'),
 						align    = 'top-left',
 						elements = elements
 					}, function(data2, menu2)
