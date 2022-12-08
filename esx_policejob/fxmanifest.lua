@@ -39,10 +39,11 @@ client_scripts {
 	'locales/sv.lua',
 	'locales/tr.lua',
 	'config.lua',
-	'client/main.lua',
 	'client/cam.lua',
-	'client/vehicle.lua',
-	'client/sp_radar.lua'
+	'client/main.lua',
+	'client/shield.lua',
+	'client/sp_radar.lua',
+	'client/vehicle.lua'
 }
 
 dependencies {
