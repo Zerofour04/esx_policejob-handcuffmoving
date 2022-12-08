@@ -701,10 +701,11 @@ function OpenPoliceActionsMenu()
 					local elements  = {}
 		
 					local elements = {	
-						{label = _U('shield_police'), value = 'bouclier1'},	
-						{label = _U('shield_sheriff'), value = 'bouc2'},	
-						{label = _U('shield_swat'), value = 'bouc3'},
-						{label = _U('shield_fbi'), value = 'bouc4'},
+						-- I think you need a script for that
+						--{label = _U('shield_police'), value = 'bouclier1'},	
+						--{label = _U('shield_sheriff'), value = 'bouc2'},	
+						--{label = _U('shield_swat'), value = 'bouc3'},
+						--{label = _U('shield_fbi'), value = 'bouc4'},
 						{label = _U('shield_withWeapon'), value = 'schildw'}	
 					}
 					
